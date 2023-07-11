@@ -1,9 +1,9 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using MelonBookshelf.Data.Models;
 using MelonBookshelf.Data.Models.Requests;
-using MelonBookshelf.Data.Models.Resources;
 using Microsoft.EntityFrameworkCore;
 using MelonBookshelf.Data.Models.Resources.Actions;
+using MelonBookshelf.Data.Models.Resources;
 
 namespace MelonBookshelf.Data
 {

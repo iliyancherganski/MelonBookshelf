@@ -1,13 +1,13 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 
-namespace MelonBookshelf.Data.Models.Requests
+namespace MelonBookshelf.Data.Models.Resources
 {
     public class CategoryResource
     {
         [ForeignKey(nameof(Category))]
         public int CategoryId { get; set; }
 
-        public virtual Category Category { get; set; } = null!; 
+        public virtual Category Category { get; set; } = null!;
 
         [ForeignKey(nameof(Resource))]
         public int ResourceId { get; set; }

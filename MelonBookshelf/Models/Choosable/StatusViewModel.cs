@@ -1,0 +1,8 @@
+﻿namespace MelonBookshelf.Models.Choosable
+{
+    public class StatusViewModel
+    {
+        public int Id { get; set; }
+        public string Name { get; set; } = null!;
+    }
+}

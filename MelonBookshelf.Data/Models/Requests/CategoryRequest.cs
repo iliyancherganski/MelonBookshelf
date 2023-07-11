@@ -1,5 +1,4 @@
-﻿using MelonBookshelf.Data.Models.Resources;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MelonBookshelf.Data.Models.Requests
 {

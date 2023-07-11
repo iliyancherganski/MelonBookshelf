@@ -1,0 +1,51 @@
+﻿@using MelonBookshelf.Models.Requests
+@model IEnumerable<ShowRequestViewModel>
+
+<table class="table">
+    <thead class="thead-dark">
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Type</th>
+            <th scope="col">Categories</th>
+            <th scope="col">Title</th>
+            <th scope="col">Author</th>
+            <th scope="col">Description</th>
+            <th scope="col">Status</th>
+            <th scope="col">Priority</th>
+            <th scope="col">Date Added</th>
+            <th scope="col">Upvotes</th>
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            int count = 0;
+        }
+        @foreach (var item in Model)
+        {
+            <tr>
+                <th scope="row">@count++</th>
+                <td>@item.Type</td>
+                <td>@String.Join(", ", item.Categories)</td>
+                <td>@item.Title</td>
+                <td>@item.Author</td>
+                <td>@item.Description</td>
+                <td>@item.Status</td>
+                <td>@item.Priority</td>
+                <td>@item.DateAdded.ToString("dd/MM/yyyy")</td>
+                <td>
+                    <div class="tooltip">
+                        <span>@item.Upvotes</span>
+                        <span class="tooltiptext">
+                            @foreach (var user in item.UsersUpvoted)
+                            {
+                                <span>@user</span>
+                                <br />
+                            }
+                        </span>
+                    </div>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+

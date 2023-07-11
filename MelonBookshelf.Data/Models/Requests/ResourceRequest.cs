@@ -1,10 +1,10 @@
-﻿using MelonBookshelf.Data.Models.Requests;
+﻿using MelonBookshelf.Data.Models.Enums;
 using MelonBookshelf.Data.Models.Resources.Actions;
 using Microsoft.AspNetCore.Identity;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace MelonBookshelf.Data.Models.Resources
+namespace MelonBookshelf.Data.Models.Requests
 {
     public class ResourceRequest
     {
@@ -24,7 +24,7 @@ namespace MelonBookshelf.Data.Models.Resources
         public virtual IdentityUser User { get; set; } = null!;
 
         [Required]
-        public string Type { get; set; } = null!;
+        public ResourceType Type { get; set; }
 
         [Required]
         [MaxLength(40)]
@@ -39,10 +39,13 @@ namespace MelonBookshelf.Data.Models.Resources
         public string Description { get; set; } = null!;
 
         [Required]
-        public string Status { get; set; } = null!;
+        public RequestStatus Status { get; set; }
 
         [Required]
-        public string Priority { get; set; } = null!;
+        public RequestPriority Priority { get; set; }
+
+        [Required]
+        public DateTime DateAdded { get; set; }
 
         [Required]
         [MaxLength(200)]
@@ -50,12 +53,6 @@ namespace MelonBookshelf.Data.Models.Resources
 
         [MaxLength(200)]
         public string? RejectionJustification { get; set; }
-
-        [Required]
-        public DateTime DateAdded { get; set; }
-
-        [Required]
-        public DateTime ExpectedReturnDate { get; set; }
 
         public virtual ICollection<CategoryRequest> CategoryRequests { get; set; } = null!;
         public virtual ICollection<RequestFollow> RequestFollows { get; set; } = null!;

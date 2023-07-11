@@ -1,6 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using MelonBookshelf.Data.Models.Enums;
+using Microsoft.AspNetCore.Identity;
 
-namespace MelonBookshelf.Data.Models.Requests
+namespace MelonBookshelf.Data.Models.Resources
 {
     public class Resource
     {
@@ -11,8 +14,12 @@ namespace MelonBookshelf.Data.Models.Requests
         [Key]
         public int Id { get; set; }
 
+        [ForeignKey(nameof(User))]
+        public string UserId { get; set; } = null!;
+        public virtual IdentityUser User { get; set; } = null!;
+
         [Required]
-        public string Type { get; set; } = null!;
+        public ResourceType Type { get; set; }
 
         [Required]
         [MaxLength(40)]
@@ -28,7 +35,12 @@ namespace MelonBookshelf.Data.Models.Requests
 
         // Status - 
         [Required]
-        public string Status { get; set; } = null!;
+        public ResourceStatus Status { get; set; }
+
+        [Required]
+        public DateTime DateAdded { get; set; }
+
+        public DateTime? ExpectedReturnDate { get; set; }
 
         [Required]
         public string OfficialPageUrl { get; set; } = null!;

@@ -1,10 +1,11 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using MelonBookshelf.Data.Models.Requests;
+using Microsoft.AspNetCore.Identity;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MelonBookshelf.Data.Models.Resources.Actions
 {
-    public class RequestFollow
+    public class RequestUpvote
     {
         [ForeignKey(nameof(User))]
         public string UserId { get; set; } = null!;

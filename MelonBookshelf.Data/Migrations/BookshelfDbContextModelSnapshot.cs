@@ -70,7 +70,7 @@ namespace MelonBookshelf.Data.Migrations
                     b.ToTable("CategoriesResources");
                 });
 
-            modelBuilder.Entity("MelonBookshelf.Data.Models.Requests.Resource", b =>
+            modelBuilder.Entity("MelonBookshelf.Data.Models.Requests.ResourceRequest", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -83,35 +83,46 @@ namespace MelonBookshelf.Data.Migrations
                         .HasMaxLength(40)
                         .HasColumnType("nvarchar(40)");
 
+                    b.Property<DateTime>("DateAdded")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasMaxLength(500)
                         .HasColumnType("nvarchar(500)");
 
-                    b.Property<string>("Details")
+                    b.Property<string>("Justification")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
 
-                    b.Property<string>("OfficialPageUrl")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("Priority")
+                        .HasColumnType("int");
 
-                    b.Property<string>("Status")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<string>("RejectionJustification")
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
 
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasMaxLength(40)
                         .HasColumnType("nvarchar(40)");
 
-                    b.Property<string>("Type")
+                    b.Property<int>("Type")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UserId")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Resources");
+                    b.HasIndex("UserId");
+
+                    b.ToTable("ResourcesRequests");
                 });
 
             modelBuilder.Entity("MelonBookshelf.Data.Models.Resources.Actions.RequestFollow", b =>
@@ -144,7 +155,7 @@ namespace MelonBookshelf.Data.Migrations
                     b.ToTable("RequestUpvotes");
                 });
 
-            modelBuilder.Entity("MelonBookshelf.Data.Models.Resources.ResourceRequest", b =>
+            modelBuilder.Entity("MelonBookshelf.Data.Models.Resources.Resource", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -165,34 +176,27 @@ namespace MelonBookshelf.Data.Migrations
                         .HasMaxLength(500)
                         .HasColumnType("nvarchar(500)");
 
-                    b.Property<DateTime>("ExpectedReturnDate")
+                    b.Property<string>("Details")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("ExpectedReturnDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("Justification")
-                        .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
-
-                    b.Property<string>("Priority")
+                    b.Property<string>("OfficialPageUrl")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("RejectionJustification")
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
-
-                    b.Property<string>("Status")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
 
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasMaxLength(40)
                         .HasColumnType("nvarchar(40)");
 
-                    b.Property<string>("Type")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("Type")
+                        .HasColumnType("int");
 
                     b.Property<string>("UserId")
                         .IsRequired()
@@ -202,7 +206,7 @@ namespace MelonBookshelf.Data.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("ResourcesRequests");
+                    b.ToTable("Resources");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -415,7 +419,7 @@ namespace MelonBookshelf.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("MelonBookshelf.Data.Models.Resources.ResourceRequest", "ResourceRequest")
+                    b.HasOne("MelonBookshelf.Data.Models.Requests.ResourceRequest", "ResourceRequest")
                         .WithMany("CategoryRequests")
                         .HasForeignKey("RequestId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -434,7 +438,7 @@ namespace MelonBookshelf.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("MelonBookshelf.Data.Models.Requests.Resource", "Resource")
+                    b.HasOne("MelonBookshelf.Data.Models.Resources.Resource", "Resource")
                         .WithMany("CategoryResources")
                         .HasForeignKey("ResourceId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -445,9 +449,20 @@ namespace MelonBookshelf.Data.Migrations
                     b.Navigation("Resource");
                 });
 
+            modelBuilder.Entity("MelonBookshelf.Data.Models.Requests.ResourceRequest", b =>
+                {
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("MelonBookshelf.Data.Models.Resources.Actions.RequestFollow", b =>
                 {
-                    b.HasOne("MelonBookshelf.Data.Models.Resources.ResourceRequest", "ResourceRequest")
+                    b.HasOne("MelonBookshelf.Data.Models.Requests.ResourceRequest", "ResourceRequest")
                         .WithMany("RequestFollows")
                         .HasForeignKey("RequestId")
                         .OnDelete(DeleteBehavior.NoAction)
@@ -466,7 +481,7 @@ namespace MelonBookshelf.Data.Migrations
 
             modelBuilder.Entity("MelonBookshelf.Data.Models.Resources.Actions.RequestUpvote", b =>
                 {
-                    b.HasOne("MelonBookshelf.Data.Models.Resources.ResourceRequest", "ResourceRequest")
+                    b.HasOne("MelonBookshelf.Data.Models.Requests.ResourceRequest", "ResourceRequest")
                         .WithMany("RequestUpvotes")
                         .HasForeignKey("RequestId")
                         .OnDelete(DeleteBehavior.NoAction)
@@ -483,7 +498,7 @@ namespace MelonBookshelf.Data.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("MelonBookshelf.Data.Models.Resources.ResourceRequest", b =>
+            modelBuilder.Entity("MelonBookshelf.Data.Models.Resources.Resource", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "User")
                         .WithMany()
@@ -545,18 +560,18 @@ namespace MelonBookshelf.Data.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("MelonBookshelf.Data.Models.Requests.Resource", b =>
-                {
-                    b.Navigation("CategoryResources");
-                });
-
-            modelBuilder.Entity("MelonBookshelf.Data.Models.Resources.ResourceRequest", b =>
+            modelBuilder.Entity("MelonBookshelf.Data.Models.Requests.ResourceRequest", b =>
                 {
                     b.Navigation("CategoryRequests");
 
                     b.Navigation("RequestFollows");
 
                     b.Navigation("RequestUpvotes");
+                });
+
+            modelBuilder.Entity("MelonBookshelf.Data.Models.Resources.Resource", b =>
+                {
+                    b.Navigation("CategoryResources");
                 });
 #pragma warning restore 612, 618
         }

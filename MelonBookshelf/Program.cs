@@ -1,3 +1,5 @@
+using MelonBookshelf.Common.Contracts;
+using MelonBookshelf.Common.Services;
 using MelonBookshelf.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -13,6 +15,9 @@ builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
     .AddEntityFrameworkStores<BookshelfDbContext>();
 builder.Services.AddControllersWithViews();
+
+builder.Services.AddScoped<IRequestService, RequestService>();
+builder.Services.AddScoped<IResourceService, ResourceService>();
 
 var app = builder.Build();
 
