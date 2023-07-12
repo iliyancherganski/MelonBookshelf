@@ -8,7 +8,7 @@ namespace MelonBookshelf.Data.Models.Enums
 {
     public enum ResourceStatus
     {
-        Taken,
-        Avalable
+        Taken = 0,
+        Avalable = 1
     }
 }

@@ -6,9 +6,9 @@
         <div style="padding-bottom: 20px">
             <label>Priority</label>
             <select asp-for="@Model.Priority" class="form-control">
-                @foreach (var item in Model.Priorities)
+                @for (int i = 0; i < Model.Priorities.Count; i++)
                 {
-                    <option name="Priority" value="@item.Name">@item.Name</option>
+                    <option value="@i">@Model.Priorities[i]</option>
                 }
             </select>
         </div>
@@ -38,7 +38,7 @@
         <label>Categories</label>
         @foreach (var item in Model.Categories)
         {
-            <input type="checkbox" value="@item.Id" name="CategoryIds" />
+            <input type="checkbox" name="CategoryIds" value="@item.Id" />
             <label>@item.Name</label>
         }
     </div>

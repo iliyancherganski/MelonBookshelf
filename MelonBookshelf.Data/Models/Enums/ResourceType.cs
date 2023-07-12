@@ -8,8 +8,8 @@ namespace MelonBookshelf.Data.Models.Enums
 {
     public enum ResourceType
     {
-        Digital,
-        Physical,
-        OnlineCourse
+        Digital = 0,
+        Physical = 1,
+        OnlineCourse = 2
     }
 }

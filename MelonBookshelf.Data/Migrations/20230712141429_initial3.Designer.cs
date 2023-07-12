@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MelonBookshelf.Data.Migrations
 {
     [DbContext(typeof(BookshelfDbContext))]
-    [Migration("20230711083201_Initial")]
-    partial class Initial
+    [Migration("20230712141429_initial3")]
+    partial class initial3
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -37,7 +37,12 @@ namespace MelonBookshelf.Data.Migrations
                         .HasMaxLength(30)
                         .HasColumnType("nvarchar(30)");
 
+                    b.Property<int?>("ResourceRequestId")
+                        .HasColumnType("int");
+
                     b.HasKey("CategoryId");
+
+                    b.HasIndex("ResourceRequestId");
 
                     b.ToTable("Categories");
                 });
@@ -57,21 +62,6 @@ namespace MelonBookshelf.Data.Migrations
                     b.ToTable("CategoriesRequests");
                 });
 
-            modelBuilder.Entity("MelonBookshelf.Data.Models.Requests.CategoryResource", b =>
-                {
-                    b.Property<int>("CategoryId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ResourceId")
-                        .HasColumnType("int");
-
-                    b.HasKey("CategoryId", "ResourceId");
-
-                    b.HasIndex("ResourceId");
-
-                    b.ToTable("CategoriesResources");
-                });
-
             modelBuilder.Entity("MelonBookshelf.Data.Models.Requests.ResourceRequest", b =>
                 {
                     b.Property<int>("Id")
@@ -87,11 +77,6 @@ namespace MelonBookshelf.Data.Migrations
 
                     b.Property<DateTime>("DateAdded")
                         .HasColumnType("datetime2");
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasMaxLength(500)
-                        .HasColumnType("nvarchar(500)");
 
                     b.Property<string>("Justification")
                         .IsRequired()
@@ -112,9 +97,6 @@ namespace MelonBookshelf.Data.Migrations
                         .IsRequired()
                         .HasMaxLength(40)
                         .HasColumnType("nvarchar(40)");
-
-                    b.Property<int>("Type")
-                        .HasColumnType("int");
 
                     b.Property<string>("UserId")
                         .IsRequired()
@@ -155,6 +137,21 @@ namespace MelonBookshelf.Data.Migrations
                     b.HasIndex("RequestId");
 
                     b.ToTable("RequestUpvotes");
+                });
+
+            modelBuilder.Entity("MelonBookshelf.Data.Models.Resources.CategoryResource", b =>
+                {
+                    b.Property<int>("CategoryId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ResourceId")
+                        .HasColumnType("int");
+
+                    b.HasKey("CategoryId", "ResourceId");
+
+                    b.HasIndex("ResourceId");
+
+                    b.ToTable("CategoriesResources");
                 });
 
             modelBuilder.Entity("MelonBookshelf.Data.Models.Resources.Resource", b =>
@@ -413,6 +410,13 @@ namespace MelonBookshelf.Data.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("MelonBookshelf.Data.Models.Category", b =>
+                {
+                    b.HasOne("MelonBookshelf.Data.Models.Requests.ResourceRequest", null)
+                        .WithMany("Categories")
+                        .HasForeignKey("ResourceRequestId");
+                });
+
             modelBuilder.Entity("MelonBookshelf.Data.Models.Requests.CategoryRequest", b =>
                 {
                     b.HasOne("MelonBookshelf.Data.Models.Category", "Category")
@@ -422,7 +426,7 @@ namespace MelonBookshelf.Data.Migrations
                         .IsRequired();
 
                     b.HasOne("MelonBookshelf.Data.Models.Requests.ResourceRequest", "ResourceRequest")
-                        .WithMany("CategoryRequests")
+                        .WithMany()
                         .HasForeignKey("RequestId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -430,25 +434,6 @@ namespace MelonBookshelf.Data.Migrations
                     b.Navigation("Category");
 
                     b.Navigation("ResourceRequest");
-                });
-
-            modelBuilder.Entity("MelonBookshelf.Data.Models.Requests.CategoryResource", b =>
-                {
-                    b.HasOne("MelonBookshelf.Data.Models.Category", "Category")
-                        .WithMany()
-                        .HasForeignKey("CategoryId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("MelonBookshelf.Data.Models.Resources.Resource", "Resource")
-                        .WithMany("CategoryResources")
-                        .HasForeignKey("ResourceId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Category");
-
-                    b.Navigation("Resource");
                 });
 
             modelBuilder.Entity("MelonBookshelf.Data.Models.Requests.ResourceRequest", b =>
@@ -498,6 +483,25 @@ namespace MelonBookshelf.Data.Migrations
                     b.Navigation("ResourceRequest");
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("MelonBookshelf.Data.Models.Resources.CategoryResource", b =>
+                {
+                    b.HasOne("MelonBookshelf.Data.Models.Category", "Category")
+                        .WithMany()
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("MelonBookshelf.Data.Models.Resources.Resource", "Resource")
+                        .WithMany("CategoryResources")
+                        .HasForeignKey("ResourceId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Category");
+
+                    b.Navigation("Resource");
                 });
 
             modelBuilder.Entity("MelonBookshelf.Data.Models.Resources.Resource", b =>
@@ -564,7 +568,7 @@ namespace MelonBookshelf.Data.Migrations
 
             modelBuilder.Entity("MelonBookshelf.Data.Models.Requests.ResourceRequest", b =>
                 {
-                    b.Navigation("CategoryRequests");
+                    b.Navigation("Categories");
 
                     b.Navigation("RequestFollows");
 

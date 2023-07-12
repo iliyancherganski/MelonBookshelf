@@ -1,5 +1,5 @@
-using MelonBookshelf.Common.Contracts;
-using MelonBookshelf.Common.Services;
+using MelonBookshelf.Business.Contracts;
+using MelonBookshelf.Business.Services;
 using MelonBookshelf.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -18,6 +18,7 @@ builder.Services.AddControllersWithViews();
 
 builder.Services.AddScoped<IRequestService, RequestService>();
 builder.Services.AddScoped<IResourceService, ResourceService>();
+builder.Services.AddScoped<ICategoryService, CategoryService>();
 
 var app = builder.Build();
 

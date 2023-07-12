@@ -8,10 +8,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Remove="Views\Request\Add.cshtml" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="6.0.6" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="6.0.6" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="6.0.6" />
@@ -24,11 +20,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\MelonBookshelf.Common\MelonBookshelf.Business.csproj" />
-    <ProjectReference Include="..\MelonBookshelf.Data\MelonBookshelf.Data.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
     <UpToDateCheckInput Remove="Views\Request\Add.cshtml" />
   </ItemGroup>
 
@@ -37,7 +28,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="Views\Request\Add.cshtml" />
+    <ProjectReference Include="..\MelonBookshelf.Common\MelonBookshelf.Business.csproj" />
   </ItemGroup>
 
 </Project>

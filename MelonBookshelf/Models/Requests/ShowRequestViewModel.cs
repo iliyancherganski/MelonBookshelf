@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using MelonBookshelf.Data.Models.Requests;
+using System.ComponentModel.DataAnnotations;
 
 namespace MelonBookshelf.Models.Requests
 {
@@ -7,11 +8,9 @@ namespace MelonBookshelf.Models.Requests
         public ShowRequestViewModel(ShowRequestDto r)
         {
             Id = r.Id;
-            Type = r.Type.ToString();
             Categories = r.Categories;
             Title = r.Title;
             Author = r.Author;
-            Description = r.Description;
             Status = r.Status.ToString();
             Priority = r.Priority.ToString();
             DateAdded = r.DateAdded;

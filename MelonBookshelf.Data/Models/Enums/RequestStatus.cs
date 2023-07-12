@@ -8,8 +8,8 @@ namespace MelonBookshelf.Data.Models.Enums
 {
     public enum RequestStatus
     {
-        PendingReview,
-        Processing,
-        Declined
+        PendingReview = 0,
+        Processing = 1,
+        Declined = 2
     }
 }

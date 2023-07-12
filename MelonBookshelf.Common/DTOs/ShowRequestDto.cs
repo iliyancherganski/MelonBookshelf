@@ -1,4 +1,5 @@
-﻿using MelonBookshelf.Data.Models.Requests;
+﻿using MelonBookshelf.Business.DTOs;
+using MelonBookshelf.Data.Models.Requests;
 using System.ComponentModel.DataAnnotations;
 
 namespace MelonBookshelf.Models.Requests
@@ -8,11 +9,9 @@ namespace MelonBookshelf.Models.Requests
         public ShowRequestDto(ResourceRequest rr, IEnumerable<string> usersUpvoted)
         {
             Id = rr.Id;
-            Type = rr.Type.ToString();
-            Categories = rr.CategoryRequests.Select(x => x.Category.CategoryName);
+            Categories = rr.Categories.Select(x => x.CategoryName);
             Title = rr.Title;
             Author = rr.Author;
-            Description = rr.Description;
             Status = rr.Status.ToString();
             Priority = rr.Priority.ToString();
             DateAdded = rr.DateAdded;
@@ -33,9 +32,6 @@ namespace MelonBookshelf.Models.Requests
 
         [Required]
         public string Author { get; set; } = null!;
-
-        [Required]
-        public string Description { get; set; } = null!;
 
         [Required]
         public string Status { get; set; } = null!;

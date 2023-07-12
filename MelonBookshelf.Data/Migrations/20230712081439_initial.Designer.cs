@@ -4,6 +4,7 @@ using MelonBookshelf.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MelonBookshelf.Data.Migrations
 {
     [DbContext(typeof(BookshelfDbContext))]
-    partial class BookshelfDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230712081439_initial")]
+    partial class initial
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -35,12 +37,7 @@ namespace MelonBookshelf.Data.Migrations
                         .HasMaxLength(30)
                         .HasColumnType("nvarchar(30)");
 
-                    b.Property<int?>("ResourceRequestId")
-                        .HasColumnType("int");
-
                     b.HasKey("CategoryId");
-
-                    b.HasIndex("ResourceRequestId");
 
                     b.ToTable("Categories");
                 });
@@ -408,13 +405,6 @@ namespace MelonBookshelf.Data.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("MelonBookshelf.Data.Models.Category", b =>
-                {
-                    b.HasOne("MelonBookshelf.Data.Models.Requests.ResourceRequest", null)
-                        .WithMany("Categories")
-                        .HasForeignKey("ResourceRequestId");
-                });
-
             modelBuilder.Entity("MelonBookshelf.Data.Models.Requests.CategoryRequest", b =>
                 {
                     b.HasOne("MelonBookshelf.Data.Models.Category", "Category")
@@ -424,7 +414,7 @@ namespace MelonBookshelf.Data.Migrations
                         .IsRequired();
 
                     b.HasOne("MelonBookshelf.Data.Models.Requests.ResourceRequest", "ResourceRequest")
-                        .WithMany()
+                        .WithMany("CategoryRequests")
                         .HasForeignKey("RequestId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -566,7 +556,7 @@ namespace MelonBookshelf.Data.Migrations
 
             modelBuilder.Entity("MelonBookshelf.Data.Models.Requests.ResourceRequest", b =>
                 {
-                    b.Navigation("Categories");
+                    b.Navigation("CategoryRequests");
 
                     b.Navigation("RequestFollows");
 

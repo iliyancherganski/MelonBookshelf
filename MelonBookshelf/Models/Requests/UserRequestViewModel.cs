@@ -1,24 +1,25 @@
-﻿using MelonBookshelf.Data.Models.Requests;
+﻿using MelonBookshelf.Business.DTOs;
 using System.ComponentModel.DataAnnotations;
 
 namespace MelonBookshelf.Models.Requests
 {
     public class UserRequestViewModel
     {
-        public UserRequestViewModel(ResourceRequest rr)
-        {
-            Id = rr.Id;
-            Type = rr.Type.ToString();
-            Categories = rr.CategoryRequests.Select(x => x.Category.CategoryName);
-            Title = rr.Title;
-            Author = rr.Author;
-            Description = rr.Description;
-            Status = rr.Status.ToString();
-            Priority = rr.Priority.ToString();
-            DateAdded = rr.DateAdded;
-            Justification = rr.Justification;
-            RejectionJustification = rr.RejectionJustification;
-        }
+        // TODO: Map User Request (in constructor)
+        //public UserRequestViewModel(RequestEditDto rr)
+        //{
+        //    Id = rr.Id;
+        //    Type = rr.Type.ToString();
+        //    Categories = rr.CategoryRequests.Select(x => x.Category.CategoryName);
+        //    Title = rr.Title;
+        //    Author = rr.Author;
+        //    Description = rr.Description;
+        //    Status = rr.Status.ToString();
+        //    Priority = rr.Priority.ToString();
+        //    DateAdded = rr.DateAdded;
+        //    Justification = rr.Justification;
+        //    RejectionJustification = rr.RejectionJustification;
+        //}
         public int Id { get; set; }
 
         [Required]

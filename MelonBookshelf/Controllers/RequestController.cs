@@ -1,5 +1,5 @@
-﻿using MelonBookshelf.Common.Contracts;
-using MelonBookshelf.Data.Models.Enums;
+﻿using MelonBookshelf.Business.Contracts;
+using MelonBookshelf.Business.DTOs;
 using MelonBookshelf.Models.Choosable;
 using MelonBookshelf.Models.Requests;
 using Microsoft.AspNetCore.Mvc;
@@ -25,14 +25,24 @@ namespace MelonBookshelf.Controllers
         [HttpGet]
         public async Task<IActionResult> Add()
         {
-            var model = new RequestEditViewModel
-            {
-                Categories = new 
-                {
-
-                }
-            }
+            var model = new RequestEditViewModel(await requestService.GetAddNewRequest());
+            return View(model);
         }
 
+        [HttpPost]
+        public async Task<IActionResult> Add(RequestEditViewModel model)
+        {
+            
+            RequestEditDto dto = new RequestEditDto
+            {
+                CategoryIds = model.CategoryIds,
+                Priority = model.Priority,
+                Title = model.Title,
+                Author = model.Author,
+                Justification = model.Justification
+            };
+            await requestService.AddNewRequestAsync(dto, GetUserId());
+            return RedirectToAction(nameof(All));
+        }
     }
 }

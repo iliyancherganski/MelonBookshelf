@@ -10,21 +10,19 @@ namespace MelonBookshelf.Data.Models.Requests
     {
         public ResourceRequest()
         {
-            CategoryRequests = new List<CategoryRequest>();
+            Categories = new List<Category>();
             RequestFollows = new List<RequestFollow>();
             RequestUpvotes = new List<RequestUpvote>();
         }
 
         [Key]
         public int Id { get; set; }
+        // TODO: gbhthyjyuu
 
         // UserId - the Guid user Id
         [ForeignKey(nameof(User))]
         public string UserId { get; set; } = null!;
         public virtual IdentityUser User { get; set; } = null!;
-
-        [Required]
-        public ResourceType Type { get; set; }
 
         [Required]
         [MaxLength(40)]
@@ -33,10 +31,6 @@ namespace MelonBookshelf.Data.Models.Requests
         [Required]
         [MaxLength(40)]
         public string Author { get; set; } = null!;
-
-        [Required]
-        [MaxLength(500)]
-        public string Description { get; set; } = null!;
 
         [Required]
         public RequestStatus Status { get; set; }
@@ -54,7 +48,7 @@ namespace MelonBookshelf.Data.Models.Requests
         [MaxLength(200)]
         public string? RejectionJustification { get; set; }
 
-        public virtual ICollection<CategoryRequest> CategoryRequests { get; set; } = null!;
+        public virtual ICollection<Category> Categories { get; set; } = null!;
         public virtual ICollection<RequestFollow> RequestFollows { get; set; } = null!;
         public virtual ICollection<RequestUpvote> RequestUpvotes { get; set; } = null!;
     }

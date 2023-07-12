@@ -5,11 +5,9 @@
     <thead class="thead-dark">
         <tr>
             <th scope="col">#</th>
-            <th scope="col">Type</th>
             <th scope="col">Categories</th>
             <th scope="col">Title</th>
             <th scope="col">Author</th>
-            <th scope="col">Description</th>
             <th scope="col">Status</th>
             <th scope="col">Priority</th>
             <th scope="col">Date Added</th>
@@ -23,12 +21,13 @@
         @foreach (var item in Model)
         {
             <tr>
-                <th scope="row">@count++</th>
-                <td>@item.Type</td>
+                @{
+                    count++;
+                }
+                <th scope="row">@count</th>
                 <td>@String.Join(", ", item.Categories)</td>
                 <td>@item.Title</td>
                 <td>@item.Author</td>
-                <td>@item.Description</td>
                 <td>@item.Status</td>
                 <td>@item.Priority</td>
                 <td>@item.DateAdded.ToString("dd/MM/yyyy")</td>

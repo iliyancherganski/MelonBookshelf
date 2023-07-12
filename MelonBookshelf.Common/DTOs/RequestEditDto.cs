@@ -1,25 +1,23 @@
-﻿using MelonBookshelf.Business.DTOs;
-using MelonBookshelf.Data.Models.Enums;
-using MelonBookshelf.Models.Choosable;
+﻿using MelonBookshelf.Data.Models.Enums;
+using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace MelonBookshelf.Models.Requests
+namespace MelonBookshelf.Business.DTOs
 {
-    public class RequestEditViewModel
+    public class RequestEditDto
     {
-        public RequestEditViewModel()
+        public RequestEditDto()
         {
 
         }
-        public RequestEditViewModel(RequestEditDto r)
+        public RequestEditDto(List<CategoryDto> categories)
         {
-            Categories = r.Categories;
-            CategoryIds = r.CategoryIds;
-            Title = r.Title;
-            Author = r.Author;
-            Priorities = r.Priorities;
-            Priority = r.Priority;
-            Justification = r.Justification;
+            Priorities = Enum.GetNames(typeof(RequestPriority)).ToList();
+            Categories = categories;
         }
         [Required]
         public List<int> CategoryIds { get; set; } = null!;
@@ -36,10 +34,7 @@ namespace MelonBookshelf.Models.Requests
         [Required]
         public string Justification { get; set; } = null!;
 
-        [Required]
         public List<CategoryDto> Categories { get; set; } = null!;
-
-        [Required]
         public List<string> Priorities { get; set; } = null!;
     }
 }

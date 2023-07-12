@@ -1,6 +1,6 @@
 ﻿using MelonBookshelf.Data.Models.Resources;
 
-namespace MelonBookshelf.Common.Contracts
+namespace MelonBookshelf.Business.Contracts
 {
     public interface IResourceService
     {
