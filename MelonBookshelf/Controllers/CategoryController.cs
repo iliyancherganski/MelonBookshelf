@@ -29,6 +29,12 @@ namespace MelonBookshelf.Controllers
         [HttpPost]
         public async Task<IActionResult> Add(CategoryViewModel category)
         {
+            if (!ModelState.IsValid)
+            {
+                var newCat = await categoryService.GetAllCategories();
+                category.CategoryNames = newCat.Select(x => x.Name).ToList();
+                return View(category);
+            }
             CategoryDto dto = new CategoryDto
             {
                 Name = category.Name
@@ -36,7 +42,7 @@ namespace MelonBookshelf.Controllers
             await categoryService.AddNewCategory(dto);
 
 
-            return RedirectToAction(nameof(RequestController.Add), nameof(RequestController));
+            return RedirectToAction(nameof(RequestController.Add), "Request");
         }
     }
 }

@@ -23,10 +23,10 @@ namespace MelonBookshelf.Business.Services
             await dbContext.SaveChangesAsync();
         }
 
-        //public async Task<CategoryDto> GetAddNewCategory()
-        //{
-        //    return await 
-        //}
+        public async Task<bool> FindCategoryByName(string name)
+        {
+            return await dbContext.Categories.AnyAsync(x => x.CategoryName == name);
+        }
 
         public async Task<IEnumerable<CategoryDto>> GetAllCategories()
         {

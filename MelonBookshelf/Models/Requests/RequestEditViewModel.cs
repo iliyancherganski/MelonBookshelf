@@ -25,21 +25,22 @@ namespace MelonBookshelf.Models.Requests
         public List<int> CategoryIds { get; set; } = null!;
 
         [Required]
+        [StringLength(40), MinLength(2)]
         public string Title { get; set; } = null!;
 
         [Required]
+        [StringLength(40), MinLength(2)]
         public string Author { get; set; } = null!;
 
         [Required]
         public int Priority { get; set; }
 
         [Required]
+        [StringLength(500), MinLength(5)]
         public string Justification { get; set; } = null!;
 
-        [Required]
-        public List<CategoryDto> Categories { get; set; } = null!;
+        public List<CategoryDto>? Categories { get; set; }
 
-        [Required]
-        public List<string> Priorities { get; set; } = null!;
+        public List<string>? Priorities { get; set; }
     }
 }

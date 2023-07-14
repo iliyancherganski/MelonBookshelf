@@ -5,23 +5,27 @@ namespace MelonBookshelf.Models.Requests
 {
     public class ShowRequestViewModel
     {
+        public ShowRequestViewModel()
+        {
+        }
         public ShowRequestViewModel(ShowRequestDto r)
         {
             Id = r.Id;
+            UserId = r.UserId;
             Categories = r.Categories;
             Title = r.Title;
             Author = r.Author;
             Status = r.Status.ToString();
+            Justification = r.Justification;
             Priority = r.Priority.ToString();
             DateAdded = r.DateAdded;
             UsersUpvoted = r.UsersUpvoted.ToList();
-            Upvotes = UsersUpvoted.Count();
+            Upvotes = r.Upvotes;
+            IsUpvoted = r.IsUpvoted;
         }
 
         public int Id { get; set; }
-
-        [Required]
-        public string Type { get; set; } = null!;
+        public string UserId { get; set; }
 
         [Required]
         public IEnumerable<string> Categories { get; set; } = null!;
@@ -33,7 +37,7 @@ namespace MelonBookshelf.Models.Requests
         public string Author { get; set; } = null!;
 
         [Required]
-        public string Description { get; set; } = null!;
+        public string Justification { get; set; } = null!;
 
         [Required]
         public string Status { get; set; } = null!;
@@ -46,6 +50,8 @@ namespace MelonBookshelf.Models.Requests
 
         [Required]
         public IEnumerable<string> UsersUpvoted { get; set; }
+
+        public bool? IsUpvoted { get; set; }
 
         [Required]
         public int Upvotes { get; set; }

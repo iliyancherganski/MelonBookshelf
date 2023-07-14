@@ -14,12 +14,36 @@ namespace MelonBookshelf.Controllers
         {
             this.requestService = requestService;
         }
-
         public async Task<IActionResult> All()
         {
-            var model = await requestService.GetAllRequests();
+            var model = await requestService.GetAllRequests(GetUserId());
 
-            return View(model.Select(x=>new ShowRequestViewModel(x)));
+            return View(model.Select(x => new ShowRequestViewModel(x)));
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Upvote(int id)
+        {
+            var model = await requestService.GetRequest(id, GetUserId());
+            if (model.IsUpvoted != null)
+            {
+                if (model.IsUpvoted == false)
+                {
+                    await requestService.UpvoteRequest(model.Id, GetUserId());
+                }
+                else
+                {
+                    await requestService.RemoveUpvoteRequest(model.Id, GetUserId());
+                }
+            }
+            return RedirectToAction(nameof(All));
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Details(int id)
+        {
+            var model = new ShowRequestViewModel(await requestService.GetRequest(id, GetUserId()));
+            return View(model);
         }
 
         [HttpGet]
@@ -32,7 +56,17 @@ namespace MelonBookshelf.Controllers
         [HttpPost]
         public async Task<IActionResult> Add(RequestEditViewModel model)
         {
-            
+            if (!ModelState.IsValid)
+            {
+                var newRequest = await requestService.GetAddNewRequest();
+                model.Priorities = newRequest.Priorities;
+                model.Categories = newRequest.Categories;
+                return View(model);
+            }
+            if (model.CategoryIds.Count >= 0)
+            {
+                ModelState.AddModelError("", "There should be at least one category added.");
+            }
             RequestEditDto dto = new RequestEditDto
             {
                 CategoryIds = model.CategoryIds,

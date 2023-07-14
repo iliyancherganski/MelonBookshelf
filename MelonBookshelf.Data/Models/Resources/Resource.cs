@@ -14,10 +14,6 @@ namespace MelonBookshelf.Data.Models.Resources
         [Key]
         public int Id { get; set; }
 
-        [ForeignKey(nameof(User))]
-        public string UserId { get; set; } = null!;
-        public virtual IdentityUser User { get; set; } = null!;
-
         [Required]
         public ResourceType Type { get; set; }
 
@@ -45,8 +41,7 @@ namespace MelonBookshelf.Data.Models.Resources
         [Required]
         public string OfficialPageUrl { get; set; } = null!;
 
-        [Required]
-        public string Details { get; set; } = null!;
+        public string? FilePathOrUrl { get; set; }
 
         public virtual ICollection<CategoryResource> CategoryResources { get; set; }
     }

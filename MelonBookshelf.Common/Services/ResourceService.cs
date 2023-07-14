@@ -22,9 +22,7 @@ namespace MelonBookshelf.Business.Services
 
         public async Task<IEnumerable<Resource>> GetAllUserResources(string userId)
         {
-            return await dbContext.Resources
-                .Where(x => x.UserId == userId)
-                .ToListAsync();
+            throw new NotImplementedException();
         }
     }
 }

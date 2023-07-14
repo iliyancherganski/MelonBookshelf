@@ -173,12 +173,11 @@ namespace MelonBookshelf.Data.Migrations
                         .HasMaxLength(500)
                         .HasColumnType("nvarchar(500)");
 
-                    b.Property<string>("Details")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<DateTime?>("ExpectedReturnDate")
                         .HasColumnType("datetime2");
+
+                    b.Property<string>("FilePathOrUrl")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("OfficialPageUrl")
                         .IsRequired()
@@ -195,13 +194,7 @@ namespace MelonBookshelf.Data.Migrations
                     b.Property<int>("Type")
                         .HasColumnType("int");
 
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("Resources");
                 });
@@ -500,17 +493,6 @@ namespace MelonBookshelf.Data.Migrations
                     b.Navigation("Category");
 
                     b.Navigation("Resource");
-                });
-
-            modelBuilder.Entity("MelonBookshelf.Data.Models.Resources.Resource", b =>
-                {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

@@ -9,20 +9,20 @@ namespace MelonBookshelf.Models.Requests
         public ShowRequestDto(ResourceRequest rr, IEnumerable<string> usersUpvoted)
         {
             Id = rr.Id;
+            UserId = rr.UserId;
             Categories = rr.Categories.Select(x => x.CategoryName);
             Title = rr.Title;
             Author = rr.Author;
             Status = rr.Status.ToString();
             Priority = rr.Priority.ToString();
+            Justification = rr.Justification;
             DateAdded = rr.DateAdded;
             UsersUpvoted = usersUpvoted;
             Upvotes = UsersUpvoted.Count();
         }
 
         public int Id { get; set; }
-
-        [Required]
-        public string Type { get; set; } = null!;
+        public string UserId { get; set; }
 
         [Required]
         public IEnumerable<string> Categories { get; set; } = null!;
@@ -38,6 +38,8 @@ namespace MelonBookshelf.Models.Requests
 
         [Required]
         public string Priority { get; set; } = null!;
+        [Required]
+        public string Justification { get; set; } = null!;
 
         [Required]
         public DateTime DateAdded { get; set; }
@@ -47,6 +49,8 @@ namespace MelonBookshelf.Models.Requests
 
         [Required]
         public int Upvotes { get; set; }
+
+        public bool? IsUpvoted { get; set; }
     }
 }
 

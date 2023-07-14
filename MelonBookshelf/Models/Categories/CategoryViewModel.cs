@@ -23,6 +23,7 @@ namespace MelonBookshelf.Models.Categories
 
         public int Id { get; set; }
         [Required]
+        [StringLength(30), MinLength(3)]
         public string Name { get; set; } = null!;
 
         public List<string> CategoryNames { get; set; } = new List<string>();

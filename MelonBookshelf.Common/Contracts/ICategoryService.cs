@@ -9,6 +9,7 @@ namespace MelonBookshelf.Business.Contracts
 {
     public interface ICategoryService
     {
+        Task<bool> FindCategoryByName(string name);
         Task<IEnumerable<CategoryDto>> GetAllCategories();
         //Task<CategoryDto> GetAddNewCategory();
         Task AddNewCategory(CategoryDto model);

@@ -6,6 +6,7 @@ using MelonBookshelf.Models.Requests;
 using Microsoft.EntityFrameworkCore;
 using MelonBookshelf.Data.Models.Enums;
 using MelonBookshelf.Data.Models;
+using MelonBookshelf.Data.Models.Resources.Actions;
 
 namespace MelonBookshelf.Business.Services
 {
@@ -39,7 +40,7 @@ namespace MelonBookshelf.Business.Services
             {
                 dbContext.CategoriesRequests.Add(new CategoryRequest
                 {
-                    Category = dbContext.Categories.FirstOrDefault(x=>x.CategoryId == categoryId),
+                    Category = dbContext.Categories.FirstOrDefault(x => x.CategoryId == categoryId),
                     CategoryId = categoryId,
                     ResourceRequest = rr,
                     RequestId = rr.Id
@@ -57,34 +58,81 @@ namespace MelonBookshelf.Business.Services
             }).ToList();
         }
 
-        public async Task<ShowRequestDto> GetRequest(int id)
+        public async Task<ShowRequestDto> GetRequest(int id, string userId)
         {
             var request = await dbContext.ResourcesRequests
                 .FirstOrDefaultAsync(x => x.Id == id);
             var categories = new List<Category>();
-            foreach (var categoryReq in await dbContext.CategoriesRequests.Where(c=>c.RequestId == request.Id).ToListAsync())
+            foreach (var categoryReq in await dbContext.CategoriesRequests.Where(c => c.RequestId == request.Id).ToListAsync())
             {
-                var category = await dbContext.Categories.FirstOrDefaultAsync(x=>x.CategoryId == categoryReq.CategoryId);
+                var category = await dbContext.Categories.FirstOrDefaultAsync(x => x.CategoryId == categoryReq.CategoryId);
                 categories.Add(category);
             }
             request.Categories = categories;
-            return new ShowRequestDto(request, dbContext.RequestUpvotes.Where(x=>x.RequestId == id).Select(x => x.User.Email).ToList());
+
+            var dto = new ShowRequestDto(request, dbContext.RequestUpvotes.Where(x => x.RequestId == id).Select(x => x.User.Email).ToList());
+            if (!string.IsNullOrEmpty(userId))
+            {
+
+                // Creator of request -> IsUpvoted = null
+                if (dto.UserId == userId)
+                {
+                    dto.IsUpvoted = null;
+                }
+                // Not creator of request
+                else
+                {
+                    if (dbContext.RequestUpvotes.Any(x => x.RequestId == id && x.UserId == userId))
+                    {
+                        dto.IsUpvoted = true;
+                    }
+                    else
+                    {
+                        dto.IsUpvoted = false;
+                    }
+                }
+            }
+            return dto;
         }
 
-        public async Task<IEnumerable<ShowRequestDto>> GetAllRequests()
+        public async Task<IEnumerable<ShowRequestDto>> GetAllRequests(string userId)
         {
             var ids = await dbContext.ResourcesRequests.Select(x => x.Id).ToListAsync();
             var requests = new List<ShowRequestDto>();
             foreach (var id in ids)
             {
-                requests.Add(await GetRequest(id)); 
+                requests.Add(await GetRequest(id, userId));
             }
-            return requests;
+
+            return requests.OrderBy(x=>x.DateAdded);
         }
 
-        public async Task UpvoteRequest(int requestId, int userId)
+        public async Task UpvoteRequest(int requestId, string userId)
         {
+            if (!dbContext.RequestUpvotes.Any(x => x.RequestId == requestId && x.UserId == userId))
+            {
+                RequestUpvote requestUpvote = new RequestUpvote()
+                {
+                    RequestId = requestId,
+                    UserId = userId
+                };
+                dbContext.RequestUpvotes.Add(requestUpvote);
+                await dbContext.SaveChangesAsync();
+            }
+        }
 
+        public async Task RemoveUpvoteRequest(int requestId, string userId)
+        {
+            if (dbContext.RequestUpvotes.Any(x => x.RequestId == requestId && x.UserId == userId))
+            {
+                RequestUpvote requestUpvote = new RequestUpvote()
+                {
+                    RequestId = requestId,
+                    UserId = userId
+                };
+                dbContext.RequestUpvotes.Remove(requestUpvote);
+                await dbContext.SaveChangesAsync();
+            }
         }
     }
 }
