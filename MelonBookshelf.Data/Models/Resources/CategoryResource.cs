@@ -6,8 +6,8 @@ namespace MelonBookshelf.Data.Models.Resources
     {
         [ForeignKey(nameof(Category))]
         public int CategoryId { get; set; }
-
         public virtual Category Category { get; set; } = null!;
+
 
         [ForeignKey(nameof(Resource))]
         public int ResourceId { get; set; }

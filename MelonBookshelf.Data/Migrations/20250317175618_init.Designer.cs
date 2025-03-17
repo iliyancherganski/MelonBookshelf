@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MelonBookshelf.Data.Migrations
 {
     [DbContext(typeof(BookshelfDbContext))]
-    [Migration("20230713135346_Initial")]
-    partial class Initial
+    [Migration("20250317175618_init")]
+    partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -483,13 +483,13 @@ namespace MelonBookshelf.Data.Migrations
                     b.HasOne("MelonBookshelf.Data.Models.Category", "Category")
                         .WithMany()
                         .HasForeignKey("CategoryId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("MelonBookshelf.Data.Models.Resources.Resource", "Resource")
                         .WithMany("CategoryResources")
                         .HasForeignKey("ResourceId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("Category");

@@ -55,6 +55,19 @@ namespace MelonBookshelf.Data
                     x.CategoryId,
                     x.ResourceId
                 });
+
+            modelBuilder.Entity<CategoryResource>()
+                .HasOne(cr => cr.Category)
+                .WithMany()  // If Category does not have a collection of CategoryResources
+                .HasForeignKey(cr => cr.CategoryId)
+                .OnDelete(DeleteBehavior.NoAction); // Adjust behavior if needed
+
+            modelBuilder.Entity<CategoryResource>()
+                .HasOne(cr => cr.Resource)
+                .WithMany(r => r.CategoryResources)
+                .HasForeignKey(cr => cr.ResourceId)
+                .OnDelete(DeleteBehavior.NoAction);
+
             modelBuilder.Entity<CategoryRequest>()
                 .HasKey(x => new
                 {

@@ -481,13 +481,13 @@ namespace MelonBookshelf.Data.Migrations
                     b.HasOne("MelonBookshelf.Data.Models.Category", "Category")
                         .WithMany()
                         .HasForeignKey("CategoryId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("MelonBookshelf.Data.Models.Resources.Resource", "Resource")
                         .WithMany("CategoryResources")
                         .HasForeignKey("ResourceId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("Category");
